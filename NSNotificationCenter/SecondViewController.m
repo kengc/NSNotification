@@ -12,6 +12,7 @@
 
 @property (weak, nonatomic) IBOutlet UILabel *displayStepperValueVar;
 
+@property (nonatomic) NSNumber *viewNotAvailVal;
 
 @end
 
@@ -38,10 +39,24 @@
     return self;
 }
 
+-(void)dealloc{
+    [[NSNotificationCenter defaultCenter] removeObserver:self
+                                                     name:@"stepperChangeHasHappened"
+                                                  object:nil];
+}
+
+-(void)viewWillAppear:(BOOL)animated{
+    
+    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(observeStepperValueChange:) name:@"stepperChangeHasHappened" object:nil];
+
+
+}
 
 - (void)viewDidLoad {
     [super viewDidLoad];
     // Do any additional setup after loading the view.
+    
+    self.displayStepperValueVar.text = [NSString stringWithFormat:@"%@", self.viewNotAvailVal];
 //    
 //    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(observeStepperValueChange:) name:@"stepperChangeHasHappened" object:nil];
     
@@ -52,6 +67,8 @@
     NSDictionary *userInfo = notification.userInfo;
     
     NSNumber *view1Value = [userInfo objectForKey:@"stepValue"];
+    
+    self.viewNotAvailVal = view1Value;
    
     self.displayStepperValueVar.text = [NSString stringWithFormat:@"%@", view1Value];
     

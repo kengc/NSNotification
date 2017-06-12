@@ -15,8 +15,6 @@
 @end
 
 
-
-
 @implementation ViewController
 
 
@@ -24,9 +22,12 @@
 - (void)viewDidLoad {
     [super viewDidLoad];
     // Do any additional setup after loading the view, typically from a nib.
-
-    
     _notifiationDictionary = [[NSMutableDictionary alloc] init];
+    
+    //self.stepVal = [NSNumber numberWithDouble:self.stepperVar.value];
+    [self stepperAction:self.stepperVar];
+    
+    
 }
 
 
@@ -39,6 +40,7 @@
     //get reference to NSNotifiation
     
     NSNumber *stepperValue = [NSNumber numberWithDouble:sender.value];
+    //NSNumber *stepperValue = [NSNumber numberWithInteger:5];
     
     [self.notifiationDictionary setValue:stepperValue forKey:@"stepValue"];
     
